@@ -10,10 +10,10 @@
     </parent>
 
     <groupId>com.example</groupId>
-    <artifactId>java_questions_service</artifactId>
+    <artifactId>examinator</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>java_questions_service</name>
+    <name>examinator</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -25,6 +25,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>

@@ -11,5 +11,6 @@ echo "Removing images..."
 
 remove_images js_questions_service
 remove_images java_questions_service
+remove_images examinator
 
 exec $SHELL;

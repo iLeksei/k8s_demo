@@ -19,5 +19,6 @@ mvn clean package
 echo "Building docker images..."
 build_image ../js_questions_service/target/js_questions_service-${APP_VERSION}.jar application/js_questions_service
 build_image ../java_questions_service/target/java_questions_service-${APP_VERSION}.jar application/java_questions_service
+build_image ../examinator/target/examinator-${APP_VERSION}.jar application/examinator
 
 exec $SHELL;
