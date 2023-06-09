@@ -14,3 +14,7 @@ project structure:
     |                          \/                             \/                     |
     |  Config-Server ->   JS-questions (1...N)     Java-questions (1...N)            |
     |_________________________________________________________________________________
+
+## IMPORTANT: ##
+### don't use underscore _ in docker image name, 
+### because it's a source of troubles for http queries  ###

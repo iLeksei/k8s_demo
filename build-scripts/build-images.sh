@@ -17,8 +17,9 @@ echo "Building jar files..."
 mvn clean package
 
 echo "Building docker images..."
-build_image ../js_questions_service/target/js_questions_service-${APP_VERSION}.jar application/js_questions_service
-build_image ../java_questions_service/target/java_questions_service-${APP_VERSION}.jar application/java_questions_service
+build_image ../eureka_discovery_service/target/eureka_discovery_service-${APP_VERSION}.jar application/eureka-discovery-service
 build_image ../examinator/target/examinator-${APP_VERSION}.jar application/examinator
+build_image ../js_questions_service/target/js_questions_service-${APP_VERSION}.jar application/js-questions-service
+build_image ../java_questions_service/target/java_questions_service-${APP_VERSION}.jar application/java-questions-service
 
 exec $SHELL;

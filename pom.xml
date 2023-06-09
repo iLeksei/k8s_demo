@@ -15,6 +15,7 @@
         <module>js_questions_service</module>
         <module>java_questions_service</module>
         <module>examinator</module>
+        <module>eureka_discovery_service</module>
     </modules>
 
     <parent>
@@ -28,7 +29,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
-        <spring-cloud.version>2020.0.4</spring-cloud.version>
+        <spring-cloud.version>2021.0.5</spring-cloud.version>
         <junit-vintage.version>5.7.2</junit-vintage.version>
     </properties>
 
@@ -36,10 +37,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -57,6 +54,7 @@
             <version>${junit-vintage.version}</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <dependencyManagement>

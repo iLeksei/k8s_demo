@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class QuestionsController {
 
-    @Value("${js_questions_service_url}")
-    private String jsQuestionsServiceUrl;
-
-    @Value("${java_questions_service_url}")
-    private String javaQuestionsServiceUrl;
+//    @Value("${js_questions_service_url}")
+//    private String jsQuestionsServiceUrl;
+//
+//    @Value("${java_questions_service_url}")
+//    private String javaQuestionsServiceUrl;
 
 
     @GetMapping("questions")

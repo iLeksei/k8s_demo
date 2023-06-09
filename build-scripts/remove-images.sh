@@ -3,14 +3,15 @@
 function remove_images() {
   IMAGE_NAME=$1
 
-  docker rm -i ${IMAGE_NAME}
+  docker rmi ${IMAGE_NAME}
 }
 
 # remove images
 echo "Removing images..."
 
-remove_images js_questions_service
-remove_images java_questions_service
-remove_images examinator
+remove_images application/js_questions_service
+remove_images application/java_questions_service
+remove_images application/examinator
+remove_images application/eureka_discovery_service
 
 exec $SHELL;
