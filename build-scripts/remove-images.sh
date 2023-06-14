@@ -9,9 +9,9 @@ function remove_images() {
 # remove images
 echo "Removing images..."
 
-remove_images application/js_questions_service
-remove_images application/java_questions_service
+remove_images application/js-questions-service
+remove_images application/java-questions-service
 remove_images application/examinator
-remove_images application/eureka_discovery_service
+remove_images application/eureka-discovery-service
 
 exec $SHELL;
