@@ -1,3 +1,5 @@
+#link: https://www.youtube.com/watch?v=4tSyz_v9w7Q&list=PLCy_5eq0-T5AdORm9IYUrFM5EXxsagaCU
+
 The main idea of current sample project 
 is to show how we can manage different services inside docker containers with k8s.
 

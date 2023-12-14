@@ -16,6 +16,7 @@
         <module>java_questions_service</module>
         <module>examinator</module>
         <module>eureka_discovery_service</module>
+        <module>config_server</module>
     </modules>
 
     <parent>
