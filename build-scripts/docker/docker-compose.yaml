@@ -14,7 +14,7 @@ services:
   config-server:
     image: application/config-server
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8888/health-check" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
       interval: 30s
       timeout: 5s
       retries: 5
