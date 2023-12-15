@@ -1,0 +1,129 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: examinator-deployment
+  namespace: cloud-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: examinator
+  template:
+    metadata:
+      labels:
+        name: examinator
+    spec:
+      containers:
+        - name: examinator-container
+          image: application/examinator:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVER_PORT
+              value: "8080"
+            - name: EUREKA_CLIENT_ENABLED
+              value: "false"
+            - name: CONFIG_URL
+              value: "http://service-config:8080/"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: js-questions-service-deployment
+  namespace: cloud-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: backend-js-questions-service
+  template:
+    metadata:
+      labels:
+        name: backend-js-questions-service
+    spec:
+      containers:
+        - name: js-questions-service-container
+          image: application/js-questions-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVER_PORT
+              value: "8080"
+            - name: EUREKA_CLIENT_ENABLED
+              value: "false"
+            - name: CONFIG_URL
+              value: "http://service-config:8080/"
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /actuator/health/liveness
+            readinessProbe:
+              httpGet:
+                port: 8080
+                path: /actuator/health/readiness
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-questions-service-deployment
+  namespace: cloud-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: backend-java-questions-service
+  template:
+    metadata:
+      labels:
+        name: backend-java-questions-service
+    spec:
+      containers:
+        - name: java-questions-service-container
+          image: application/java-questions-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVER_PORT
+              value: "8080"
+            - name: EUREKA_CLIENT_ENABLED
+              value: "false"
+            - name: CONFIG_URL
+              value: "http://service-config:8080/"
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /actuator/health/liveness
+            readinessProbe:
+              httpGet:
+                port: 8080
+                path: /actuator/health/readiness
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-server-deployment
+  namespace: cloud-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: config-server-pod
+  template:
+    metadata:
+      labels:
+        name: config-server-pod
+    spec:
+      containers:
+        - name: config-server-container
+          image: application/config-server:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVER_PORT
+              value: "8080"
+            - name: EUREKA_CLIENT_ENABLED
+              value: "false"
