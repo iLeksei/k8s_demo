@@ -1,5 +1,6 @@
 package com.example.examinator.configs;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -12,6 +13,12 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class RestConfig {
+
+    @Bean
+    @Qualifier("baseRestTemplate")
+    public RestTemplate baseRestTemplate(RestTemplateBuilder restTemplateBuilder) {
+        return restTemplateBuilder.build();
+    }
 
     @Bean
     @LoadBalanced

@@ -3,12 +3,9 @@ package com.example.examinator.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.netflix.discovery.DiscoveryClient;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -16,25 +13,18 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @RestController
-public class QuestionsController {
+public class DirectQuestionsController {
 
-    @Value("${js_questions_service_name}")
-    private String jsQuestionsServiceName;
-
-    @Value("${java_questions_service_name}")
-    private String javaQuestionsServiceName;
-
-    private final RestTemplate restTemplate;
+    private final RestTemplate baseRestTemplate;
     private ObjectMapper objectMapper;
 
-
     @Autowired
-    public QuestionsController(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    DirectQuestionsController(@Qualifier("baseRestTemplate") RestTemplate baseRestTemplate) {
+        this.baseRestTemplate = baseRestTemplate;
     }
 
     @PostConstruct
@@ -42,24 +32,14 @@ public class QuestionsController {
         this.objectMapper = new ObjectMapper();
     }
 
-
-    @GetMapping("questions")
-    public String getQuestions() {
-        log.info("GET /questions");
-
-        log.info("Return questions list: {}", "");
-        return "";
-    }
-
-
-    @GetMapping("questions-async")
-    public String getQuestionsAsync1() throws JsonProcessingException {
-        log.info("GET /api/questions");
+    @GetMapping("questions-list")
+    public String getQuestionsList() throws JsonProcessingException {
+        log.info("GET /questions-list");
         CompletableFuture<List<String>> jsQuestions = CompletableFuture.supplyAsync(() -> {
             try {
-                String serviceUrl = getServiceUrl(jsQuestionsServiceName);
+                String serviceUrl = getServiceUrl("js-questions-service");
                 log.info("GET js questions list from URL: {}", serviceUrl);
-                String responseJson =  restTemplate.getForObject(serviceUrl, String.class);
+                String responseJson =  baseRestTemplate.getForObject(serviceUrl, String.class);
                 return objectMapper.readValue(responseJson, new TypeReference<>() {});
             } catch (Exception ex) {
                 log.error("Error with getting JS questions list");
@@ -68,9 +48,9 @@ public class QuestionsController {
         });
         CompletableFuture<List<String>> javaQuestions = CompletableFuture.supplyAsync(() -> {
             try {
-                String serviceUrl = getServiceUrl(javaQuestionsServiceName);
+                String serviceUrl = getServiceUrl("java-questions-service");
                 log.info("GET java questions list from URL: {}", serviceUrl);
-                String responseJson =  restTemplate.getForObject(serviceUrl, String.class);
+                String responseJson =  baseRestTemplate.getForObject(serviceUrl, String.class);
                 return objectMapper.readValue(responseJson, new TypeReference<>() {});
             } catch (Exception ex) {
                 log.error("Error with getting Java questions list");
@@ -80,9 +60,9 @@ public class QuestionsController {
 
         CompletableFuture<List<String>> questionsFuture = jsQuestions.thenCombine(javaQuestions,
                 (jsResult, javaResult) -> {
-            jsResult.addAll(javaResult);
-            return jsResult;
-        });
+                    jsResult.addAll(javaResult);
+                    return jsResult;
+                });
 
         List<String> questions = questionsFuture.join();
         log.info("Return questions list: {}", questions);
@@ -92,6 +72,5 @@ public class QuestionsController {
     private String getServiceUrl(String serviceName) {
         return "http://" + serviceName + "/api/questions";
     }
-
 
 }
