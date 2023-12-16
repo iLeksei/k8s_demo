@@ -55,14 +55,14 @@ spec:
               value: "false"
             - name: CONFIG_URL
               value: "http://service-config:8080/"
-          livenessProbe:
-            httpGet:
-              port: 8080
-              path: /actuator/health/liveness
-            readinessProbe:
-              httpGet:
-                port: 8080
-                path: /actuator/health/readiness
+#          livenessProbe:
+#            httpGet:
+#              port: 8080
+#              path: /actuator/health/liveness
+#            readinessProbe:
+#              httpGet:
+#                port: 8080
+#                path: /actuator/health/readiness
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -92,14 +92,7 @@ spec:
               value: "false"
             - name: CONFIG_URL
               value: "http://service-config:8080/"
-          livenessProbe:
-            httpGet:
-              port: 8080
-              path: /actuator/health/liveness
-            readinessProbe:
-              httpGet:
-                port: 8080
-                path: /actuator/health/readiness
+
 ---
 apiVersion: apps/v1
 kind: Deployment

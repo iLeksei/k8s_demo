@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-questions-service
+  namespace: cloud-demo
+spec:
+  selector:
+    name: java-question-service
+  ports:
+    - port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: js-questions-service
+  namespace: cloud-demo
+spec:
+  selector:
+    name: js-question-service
+  ports:
+    - port: 8080
+      targetPort: 8080

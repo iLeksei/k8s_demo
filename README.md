@@ -20,3 +20,12 @@ project structure:
 ## IMPORTANT: ##
 ### don't use underscore _ in docker image name, 
 ### because it's a source of troubles for http queries  ###
+
+## FOR K8S ##
+1) install kubectl
+
+2) install minikube (or use docker 'enable kubernetes' setting)
+   minikube start/stop/delete (start, stop, delete a cluster)
+   minikube dashboard - interactive web-dashboard
+   or
+   cat ~/.kube/config <= copy and add that yaml data to new cluster at Lens
