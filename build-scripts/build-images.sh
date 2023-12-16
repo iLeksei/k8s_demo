@@ -20,7 +20,7 @@ echo "Building docker images..."
 build_image ../eureka_discovery_service/target/eureka_discovery_service-${APP_VERSION}.jar application/eureka-discovery-service
 build_image ../config_server/target/config_server-${APP_VERSION}.jar application/config-server
 build_image ../examinator/target/examinator-${APP_VERSION}.jar application/examinator
-build_image ../js_questions_service/target/js_questions_service-${APP_VERSION}.jar application/js-questions-service
-build_image ../java_questions_service/target/java_questions_service-${APP_VERSION}.jar application/java-questions-service
+build_image ../js_questions_service/target/js_questions_service-${APP_VERSION}.jar application/provider-js-questions
+build_image ../java_questions_service/target/java_questions_service-${APP_VERSION}.jar application/provider-java-questions
 
 exec $SHELL;

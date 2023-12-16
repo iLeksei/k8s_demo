@@ -14,7 +14,7 @@ spec:
         name: examinator
     spec:
       containers:
-        - name: examinator-container
+        - name: questions-provider-container
           image: application/examinator:latest
           imagePullPolicy: Never
           ports:
@@ -30,21 +30,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: js-questions-service-deployment
+  name: backend-js-questions-deployment
   namespace: cloud-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: backend-js-questions-service
+      name: backend-js-questions
   template:
     metadata:
       labels:
-        name: backend-js-questions-service
+        name: backend-js-questions
     spec:
       containers:
-        - name: js-questions-service-container
-          image: application/js-questions-service:latest
+        - name: js-questions-provider-container
+          image: application/provider-js-questions:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
@@ -67,21 +67,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: java-questions-service-deployment
+  name: backend-java-questions-deployment
   namespace: cloud-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: backend-java-questions-service
+      name: backend-java-questions
   template:
     metadata:
       labels:
-        name: backend-java-questions-service
+        name: backend-java-questions
     spec:
       containers:
-        - name: java-questions-service-container
-          image: application/java-questions-service:latest
+        - name: java-questions-provider-container
+          image: application/provider-java-questions:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
@@ -97,7 +97,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: config-server-deployment
+  name: service-config-deployment
   namespace: cloud-demo
 spec:
   replicas: 1
@@ -110,7 +110,7 @@ spec:
         name: config-server-pod
     spec:
       containers:
-        - name: config-server-container
+        - name: service-config-container
           image: application/config-server:latest
           imagePullPolicy: Never
           ports:

@@ -37,7 +37,7 @@ public class DirectQuestionsController {
         log.info("GET /questions-list");
         CompletableFuture<List<String>> jsQuestions = CompletableFuture.supplyAsync(() -> {
             try {
-                String serviceUrl = getServiceUrl("js-questions-service");
+                String serviceUrl = getServiceUrl("provider-js-questions");
                 log.info("GET js questions list from URL: {}", serviceUrl);
                 String responseJson =  baseRestTemplate.getForObject(serviceUrl, String.class);
                 return objectMapper.readValue(responseJson, new TypeReference<>() {});
@@ -48,7 +48,7 @@ public class DirectQuestionsController {
         });
         CompletableFuture<List<String>> javaQuestions = CompletableFuture.supplyAsync(() -> {
             try {
-                String serviceUrl = getServiceUrl("java-questions-service");
+                String serviceUrl = getServiceUrl("provider-java-questions");
                 log.info("GET java questions list from URL: {}", serviceUrl);
                 String responseJson =  baseRestTemplate.getForObject(serviceUrl, String.class);
                 return objectMapper.readValue(responseJson, new TypeReference<>() {});
@@ -70,7 +70,7 @@ public class DirectQuestionsController {
     }
 
     private String getServiceUrl(String serviceName) {
-        return "http://" + serviceName + "/api/questions";
+        return "http://" + serviceName + ":8080/api/questions";
     }
 
 }

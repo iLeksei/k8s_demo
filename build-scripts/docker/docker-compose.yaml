@@ -22,7 +22,7 @@ services:
       SERVER_PORT: 8080
       DISCOVERY_URL: http://eureka-discovery-service:8761/eureka/
     ports:
-      - 8888:8080
+      - 8080:8080
 
   examinator:
     image: application/examinator
@@ -39,13 +39,14 @@ services:
     environment:
       SERVER_PORT: 8080
       DISCOVERY_URL: http://eureka-discovery-service:8761/eureka/
-      JAVA_QUESTIONS_SERVICE_NAME: java-questions-service
-      JS_QUESTIONS_SERVICE_NAME: js-questions-service
+      JAVA_QUESTIONS_SERVICE_NAME: provider-java-questions
+      JS_QUESTIONS_SERVICE_NAME: provider-js-questions
+      CONFIG_URL: http://service-config:8080/
     ports:
-      - 8082:8080
+      - 8093:8080
 
-  js-questions-service:
-    image: application/js-questions-service
+  provider-js-questions:
+    image: application/provider-js-questions
     depends_on:
       examinator:
         condition: service_healthy
@@ -61,11 +62,12 @@ services:
     environment:
       SERVER_PORT: 8080
       DISCOVERY_URL: http://eureka-discovery-service:8761/eureka/
+      CONFIG_URL: http://service-config:8080/
     ports:
       - 8083:8080
 
-  java-questions-service:
-    image: application/java-questions-service
+  provider-java-questions:
+    image: application/provider-java-questions
     depends_on:
       examinator:
         condition: service_healthy
@@ -81,5 +83,6 @@ services:
     environment:
       SERVER_PORT: 8080
       DISCOVERY_URL: http://eureka-discovery-service:8761/eureka/
+      CONFIG_URL: http://service-config:8080/
     ports:
       - 8084:8080
