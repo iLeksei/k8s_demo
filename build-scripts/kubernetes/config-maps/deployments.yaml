@@ -1,0 +1,172 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: common-config
+  namespace: cloud-demo
+data:
+  server_port: "8080"
+  eureka_enabled: "false"
+  config_server_enabled: "false"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: examinator-config
+  namespace: cloud-demo
+data:
+  application.properties: |-
+    health_check_message: "Hello, world!"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: examinator-deployment
+  namespace: cloud-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: examinator
+  template:
+    metadata:
+      labels:
+        name: examinator
+    spec:
+      containers:
+        - name: questions-provider-container
+          image: application/examinator:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: common-config
+                  key: server_port
+            - name: EUREKA_CLIENT_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: common-config
+                  key: eureka_enabled
+            - name: SPRING_CLOUD_CONFIG_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: common-config
+                  key: config_server_enabled
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-js-questions-deployment
+  namespace: cloud-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: backend-js-questions
+  template:
+    metadata:
+      labels:
+        name: backend-js-questions
+    spec:
+      containers:
+        - name: js-questions-provider-container
+          image: application/provider-js-questions:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: common-config
+                  key: server_port
+            - name: EUREKA_CLIENT_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: common-config
+                  key: eureka_enabled
+            - name: SPRING_CLOUD_CONFIG_ENABLED
+                valueFrom:
+                  configMapKeyRef:
+                    name: common-config
+                    key: config_server_enabled
+#          livenessProbe:
+#            httpGet:
+#              port: 8080
+#              path: /actuator/health/liveness
+#            readinessProbe:
+#              httpGet:
+#                port: 8080
+#                path: /actuator/health/readiness
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-java-questions-deployment
+  namespace: cloud-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: backend-java-questions
+  template:
+    metadata:
+      labels:
+        name: backend-java-questions
+    spec:
+      containers:
+        - name: java-questions-provider-container
+          image: application/provider-java-questions:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: common-config
+                  key: server_port
+            - name: EUREKA_CLIENT_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: common-config
+                  key: eureka_enabled
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-examinator-service
+  namespace: cloud-demo
+spec:
+  selector:
+    name: examinator
+  type: LoadBalancer
+  ports:
+    - port: 8093
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: provider-java-questions
+  namespace: cloud-demo
+spec:
+  selector:
+    name: backend-java-questions
+  ports:
+    - port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: provider-js-questions
+  namespace: cloud-demo
+spec:
+  selector:
+    name: backend-js-questions
+  ports:
+    - port: 8080
+      targetPort: 8080
