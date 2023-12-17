@@ -88,18 +88,10 @@ spec:
                   name: common-config
                   key: eureka_enabled
             - name: SPRING_CLOUD_CONFIG_ENABLED
-                valueFrom:
-                  configMapKeyRef:
-                    name: common-config
-                    key: config_server_enabled
-#          livenessProbe:
-#            httpGet:
-#              port: 8080
-#              path: /actuator/health/liveness
-#            readinessProbe:
-#              httpGet:
-#                port: 8080
-#                path: /actuator/health/readiness
+              valueFrom:
+                configMapKeyRef:
+                  name: common-config
+                  key: config_server_enabled
 ---
 apiVersion: apps/v1
 kind: Deployment

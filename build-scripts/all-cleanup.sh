@@ -10,6 +10,10 @@ kubectl delete -f ./kubernetes/2_services/question_services.yaml
 echo "Removing pods..."
 kubectl delete -f ./kubernetes/3_pods/pods.yaml
 
+#remove config-maps
+echo "Removing config-maps..."
+kubectl delete -f ./kubernetes/config-maps/deployments.yaml
+
 #remove docker images
 echo "Removing images..."
 
