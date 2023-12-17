@@ -8,5 +8,5 @@ spring:
       config:
         enabled: true
         sources:
-          - name: examinator-config
-            namesapce: cloud-demo
+          - name: provider-examinator-config
+            namespace: cloud-demo
