@@ -7,6 +7,12 @@ spring:
         period: 5000
       config:
         enabled: true
-        sources:
-          - name: provider-examinator-config
-            namespace: cloud-demo
+        name: provider-examinator-config
+        namespace: cloud-demo
+#        paths: /etc/config/application.yaml
+        enable-api: true
+#        sources:
+#          - name: provider-examinator-config
+#          - namespace: cloud-demo
+
+health_check_message: ${health_check_message}
