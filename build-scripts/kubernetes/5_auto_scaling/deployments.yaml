@@ -39,9 +39,19 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
-#          envFrom:
-#            - configMapRef:
-#                name: provider-examinator-config
+          resources:
+            limits:
+              cpu: 900m
+            requests:
+              cpu: 450m
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /actuator/health/liveness
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: /actuator/health/readiness
           env:
             - name: SERVER_PORT
               valueFrom:
@@ -171,6 +181,30 @@ spec:
   ports:
     - port: 8080
       targetPort: 8080
+---
+# HAVE TO CHECK ENABLED ADDON METRICS-SERVER
+# minikube addons list
+# minikube addons enable metrics-server
+# minikube start --extra-config=controller-manager.horizontal-pod-autoscaler-use-rest-clients=false
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: examinator-autoscaler
+  namespace: cloud-demo
+spec:
+  minReplicas: 1
+  maxReplicas: 3
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: examinator-deployment
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 15
 ---
 #NEXT SECTIONS FOR @RefreshScope and remove ENV
 #https://stackoverflow.com/questions/56863782/cannot-read-configmap-with-name-xx-in-namespace-default-ignoring

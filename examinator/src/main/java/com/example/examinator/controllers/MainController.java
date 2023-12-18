@@ -20,7 +20,7 @@ public class MainController {
 
     @GetMapping("health-check")
     private String healthCheck() {
-        log.info("GET health-check");
+        log.info("GET /health-check");
         return mainService.healthCheck();
     }
 
