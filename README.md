@@ -24,8 +24,9 @@ project structure:
 ## FOR K8S ##
 1) install kubectl
 
-2) install minikube (or use docker 'enable kubernetes' setting)
-   minikube start/stop/delete (start, stop, delete a cluster)
-   minikube dashboard - interactive web-dashboard
-   or
+2) install minikube (or use docker 'enable kubernetes' setting) \
+   minikube start/stop/delete (start, stop, delete a cluster) \
+   minikube dashboard - interactive web-dashboard \
+   or \
    cat ~/.kube/config <= copy and add that yaml data to new cluster at Lens
+   

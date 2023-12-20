@@ -182,11 +182,12 @@ spec:
     - port: 8080
       targetPort: 8080
 ---
-# HAVE TO CHECK ENABLED ADDON METRICS-SERVER
+# HAVE TO CHECK ENABLED ADDON METRICS-SERVER OR ENABLE IT IN LENS
 # minikube addons list
 # minikube addons enable metrics-server
 # minikube start --extra-config=controller-manager.horizontal-pod-autoscaler-use-rest-clients=false
 # --kubelet-insecure-tls=true add flag to metric-server (mb need to add additionally "hostNetwork: true" to config)
+# @link: https://www.youtube.com/watch?v=JE4KTlNTjOM
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
