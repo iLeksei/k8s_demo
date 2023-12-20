@@ -186,6 +186,7 @@ spec:
 # minikube addons list
 # minikube addons enable metrics-server
 # minikube start --extra-config=controller-manager.horizontal-pod-autoscaler-use-rest-clients=false
+# --kubelet-insecure-tls=true add flag to metric-server (mb need to add additionally "hostNetwork: true" to config)
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
